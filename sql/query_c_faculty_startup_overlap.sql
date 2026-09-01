@@ -1,19 +1,7 @@
--- ==============================================================================
--- Query C: Faculty Research Commercialization Gap Analysis
--- Dialect: Databricks Spark SQL
--- 
--- SPARK SQL CONVERSIONS APPLIED:
--- 1. Converted DuckDB's `STRING_AGG(DISTINCT col, '; ')` to Spark SQL's native
---    `array_join(collect_set(m.funded_startup_name), '; ') AS overlapping_startups_list`.
---    `collect_set()` automatically deduplicates values into a distinct set, and
---    `array_join()` joins them into a clean semicolon-separated string.
--- 2. Maintained standard CTE aggregation and HAVING clauses with explicit aliases.
---
--- Business Logic:
--- Identifies faculty members whose research publications have direct keyword
--- overlaps with 2 or more VC-funded startups in the Bengaluru ecosystem,
--- but who have NEVER filed or co-filed a patent for their research.
--- ==============================================================================
+-- ================================================================
+-- BUSINESS QUESTION: Which faculty members have research publications overlapping with 2 or more funded Bengaluru startups but zero institutional patent co-filings?
+-- USED BY: Dean of Research / University Incubation Center Lead
+-- ================================================================
 
 WITH faculty_startup_matches AS (
     SELECT 

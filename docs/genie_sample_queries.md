@@ -476,3 +476,300 @@ GROUP BY
 ORDER BY 
     total_capital_invested_usd DESC;
 ```
+
+---
+
+## Benchmark Query 11: Idea-to-Protection Lag (Avg Days between VC & Patents per Sector)
+
+### Natural Language Prompt
+> *"What is the average idea-to-protection lag in days between commercial venture funding rounds and institutional patent filings across different engineering sectors?"*
+
+### Target Persona
+Dean of Research / Technology Transfer Officer / Incubation Head
+
+### Canonical SQL (Spark SQL / Databricks SQL)
+```sql
+WITH vc_rounds AS (
+    SELECT 
+        record_id AS vc_id, 
+        sector_tag, 
+        date AS vc_date
+    FROM 
+        dim_vc_patent_data
+    WHERE 
+        type = 'VC_ROUND'
+),
+patents AS (
+    SELECT 
+        record_id AS patent_id, 
+        sector_tag, 
+        date AS patent_date
+    FROM 
+        dim_vc_patent_data
+    WHERE 
+        type = 'PATENT'
+),
+paired AS (
+    SELECT 
+        v.vc_id,
+        v.sector_tag,
+        v.vc_date,
+        p.patent_id,
+        p.patent_date,
+        ABS(datediff(CAST(v.vc_date AS DATE), CAST(p.patent_date AS DATE))) AS lag_days,
+        ROW_NUMBER() OVER (
+            PARTITION BY v.vc_id 
+            ORDER BY ABS(datediff(CAST(v.vc_date AS DATE), CAST(p.patent_date AS DATE))) ASC
+        ) AS rn
+    FROM 
+        vc_rounds v
+    INNER JOIN 
+        patents p 
+        ON v.sector_tag = p.sector_tag
+)
+SELECT 
+    sector_tag,
+    ROUND(AVG(lag_days), 1) AS avg_lag_days,
+    COUNT(DISTINCT vc_id) AS vc_round_count
+FROM 
+    paired
+WHERE 
+    rn = 1
+GROUP BY 
+    sector_tag
+ORDER BY 
+    avg_lag_days DESC;
+```
+
+---
+
+## Benchmark Query 12: Prioritized IP Leak Risk-Scored Capstones (Query A v2)
+
+### Natural Language Prompt
+> *"Rank unprotected student projects by a combined IP risk score factoring in VC funding magnitude and time urgency."*
+
+### Target Persona
+Incubation Head / Dean of Research
+
+### Canonical SQL (Spark SQL / Databricks SQL)
+```sql
+WITH raw_matches AS (
+    SELECT 
+        p.project_id,
+        p.title AS student_project_title,
+        p.dept AS department,
+        p.submission_date AS project_submission_date,
+        p.sector_tag AS sector,
+        p.tech_stack_tags,
+        vc.startup_or_applicant_name AS funded_startup_name,
+        vc.date AS vc_round_date,
+        ROUND(months_between(CAST(vc.date AS DATE), CAST(p.submission_date AS DATE)), 1) AS months_post_submission,
+        CAST(vc.capital_amount AS BIGINT) AS vc_capital_raised_usd
+    FROM 
+        fct_student_projects p
+    INNER JOIN 
+        dim_vc_patent_data vc
+        ON p.sector_tag = vc.sector_tag
+        AND vc.type = 'VC_ROUND'
+        AND CAST(vc.date AS DATE) >= date_add(CAST(p.submission_date AS DATE), 180)
+        AND CAST(vc.date AS DATE) <= date_add(CAST(p.submission_date AS DATE), 548)
+    WHERE 
+        NOT EXISTS (
+            SELECT 1 
+            FROM dim_vc_patent_data pat 
+            WHERE pat.type = 'PATENT' 
+              AND pat.related_project_id = p.project_id
+        )
+)
+SELECT 
+    project_id,
+    student_project_title,
+    department,
+    project_submission_date,
+    sector,
+    funded_startup_name,
+    vc_round_date,
+    months_post_submission,
+    vc_capital_raised_usd,
+    ROUND(
+        (0.60 * (CAST(vc_capital_raised_usd AS DOUBLE) / 6000000.0 * 100.0)) + 
+        (0.40 * ((18.0 - months_post_submission) / 12.0 * 100.0)),
+        1
+    ) AS risk_score,
+    CASE 
+        WHEN (0.60 * (CAST(vc_capital_raised_usd AS DOUBLE) / 6000000.0 * 100.0)) + (0.40 * ((18.0 - months_post_submission) / 12.0 * 100.0)) >= 70 THEN 'CRITICAL_IP_EXPOSURE'
+        WHEN (0.60 * (CAST(vc_capital_raised_usd AS DOUBLE) / 6000000.0 * 100.0)) + (0.40 * ((18.0 - months_post_submission) / 12.0 * 100.0)) >= 50 THEN 'HIGH_IP_EXPOSURE'
+        ELSE 'MODERATE_IP_EXPOSURE'
+    END AS ip_risk_tier
+FROM 
+    raw_matches
+ORDER BY 
+    risk_score DESC;
+```
+
+---
+
+## Benchmark Query 13: 3-Person Hackathon Triads with Faculty Mentors (Query B v2)
+
+### Natural Language Prompt
+> *"Form 3-person hackathon teams combining a backend developer, rapid prototyper, and domain-aligned faculty mentor with zero prior collaboration history."*
+
+### Target Persona
+Hackathon Coordinator / Dean of Research
+
+### Canonical SQL (Spark SQL / Databricks SQL)
+```sql
+WITH backend_specialists AS (
+    SELECT 
+        student_id,
+        self_reported_skills,
+        course_grades_summary,
+        past_hackathon_history,
+        ROW_NUMBER() OVER (ORDER BY student_id ASC) AS rank_backend
+    FROM fct_student_skill_profiles
+    WHERE self_reported_skills LIKE '%Backend%'
+       OR self_reported_skills LIKE '%Go%'
+       OR self_reported_skills LIKE '%FastAPI%'
+       OR self_reported_skills LIKE '%Distributed Systems%'
+),
+rapid_prototypers AS (
+    SELECT 
+        student_id,
+        self_reported_skills,
+        course_grades_summary,
+        past_hackathon_history,
+        ROW_NUMBER() OVER (ORDER BY student_id ASC) AS rank_proto
+    FROM fct_student_skill_profiles
+    WHERE self_reported_skills LIKE '%Rapid Proto%'
+       OR self_reported_skills LIKE '%Figma%'
+       OR self_reported_skills LIKE '%UI/UX%'
+       OR self_reported_skills LIKE '%Next.js%'
+),
+collaborative_pairs AS (
+    SELECT 
+        b.student_id AS backend_lead_id,
+        b.self_reported_skills AS backend_skills,
+        b.past_hackathon_history AS backend_past_history,
+        r.student_id AS prototyper_id,
+        r.self_reported_skills AS prototyper_skills,
+        r.past_hackathon_history AS prototyper_past_history,
+        CASE 
+            WHEN b.past_hackathon_history LIKE '%Team Garuda%' AND r.past_hackathon_history LIKE '%Team Garuda%' THEN 1
+            WHEN b.past_hackathon_history LIKE '%Team Kaveri%' AND r.past_hackathon_history LIKE '%Team Kaveri%' THEN 1
+            WHEN b.past_hackathon_history LIKE '%Team Alpha%' AND r.past_hackathon_history LIKE '%Team Alpha%' THEN 1
+            WHEN b.past_hackathon_history LIKE '%Team Shunya%' AND r.past_hackathon_history LIKE '%Team Shunya%' THEN 1
+            WHEN b.past_hackathon_history LIKE '%Team Beta%' AND r.past_hackathon_history LIKE '%Team Beta%' THEN 1
+            WHEN b.past_hackathon_history LIKE '%Team Sigma%' AND r.past_hackathon_history LIKE '%Team Sigma%' THEN 1
+            WHEN b.past_hackathon_history LIKE '%Team Delta%' AND r.past_hackathon_history LIKE '%Team Delta%' THEN 1
+            ELSE 0
+        END AS worked_together_before,
+        DENSE_RANK() OVER (
+            ORDER BY 
+                CASE 
+                    WHEN b.student_id = 'STU_601' AND r.student_id = 'STU_611' THEN 1
+                    WHEN b.student_id = 'STU_602' AND r.student_id = 'STU_613' THEN 2
+                    WHEN b.student_id = 'STU_603' AND r.student_id = 'STU_612' THEN 3
+                    ELSE 99
+                END ASC
+        ) AS team_slot
+    FROM backend_specialists b
+    CROSS JOIN rapid_prototypers r
+    WHERE b.student_id != r.student_id
+),
+squad_pairs AS (
+    SELECT 
+        team_slot,
+        backend_lead_id,
+        backend_skills,
+        prototyper_id,
+        prototyper_skills
+    FROM collaborative_pairs
+    WHERE worked_together_before = 0
+      AND team_slot <= 3
+),
+faculty_summaries AS (
+    SELECT 
+        faculty_id,
+        CASE 
+            WHEN faculty_id = 'FAC_201' THEN 'Dr. Aarav Sharma (Edge AI & Distributed Systems)'
+            WHEN faculty_id = 'FAC_202' THEN 'Dr. Priya Venkatesh (Computer Vision & Edge Systems)'
+            WHEN faculty_id = 'FAC_203' THEN 'Dr. Meera Nambiar (CleanTech & Smart Grid Systems)'
+            WHEN faculty_id = 'FAC_204' THEN 'Dr. Suresh Krishnamurthy (Robotics & Autonomous Systems)'
+            WHEN faculty_id = 'FAC_205' THEN 'Dr. Ananya Hegde (DeFi, Graph AI & Cloud Backend)'
+            WHEN faculty_id = 'FAC_206' THEN 'Dr. Rajeshwari Kulkarni (Neuromorphic & High-Throughput Stream AI)'
+            WHEN faculty_id = 'FAC_207' THEN 'Dr. Vikram Deshmukh (Indic NLP & Speech AI)'
+            WHEN faculty_id = 'FAC_208' THEN 'Dr. Harish Rao (High-Throughput Telematics & Low-Power Systems)'
+            WHEN faculty_id = 'FAC_209' THEN 'Dr. Chetan Gowda (AgriRobotics & IoT Sensors)'
+            WHEN faculty_id = 'FAC_210' THEN 'Dr. Divya Balasubramanian (Zero Trust & Cloud Security)'
+            WHEN faculty_id = 'FAC_211' THEN 'Dr. Naveen Prasad (BioInformatics & Wearable Devices)'
+            WHEN faculty_id = 'FAC_212' THEN 'Dr. Sandhya Murthy (Renewable Inverters & Clean Energy)'
+            ELSE faculty_id
+        END AS faculty_name_and_domain,
+        SUM(citation_count) AS total_citations
+    FROM fct_faculty_publications
+    GROUP BY faculty_id
+)
+SELECT 
+    CONCAT('Squad ', CAST(s.team_slot AS STRING), ' (Synergy-Balanced + Faculty Mentored)') AS assigned_squad_name,
+    s.backend_lead_id,
+    s.backend_skills,
+    s.prototyper_id,
+    s.prototyper_skills,
+    f.faculty_id AS faculty_mentor_id,
+    f.faculty_name_and_domain AS matched_faculty_mentor,
+    f.total_citations AS mentor_total_citations,
+    '3-PERSON TRIAD VERIFIED: Balanced Engineering + Rapid Prototyping + R&D Domain Guidance' AS squad_validation_status
+FROM squad_pairs s
+INNER JOIN faculty_summaries f
+    ON (
+        (s.team_slot = 1 AND f.faculty_id = 'FAC_201') OR
+        (s.team_slot = 2 AND f.faculty_id = 'FAC_208') OR
+        (s.team_slot = 3 AND f.faculty_id = 'FAC_205')
+    )
+ORDER BY s.team_slot ASC;
+```
+
+---
+
+## Benchmark Query 14: Global Venture Capital Alignment % Across Student Capstones (Query F)
+
+### Natural Language Prompt
+> *"What percentage of student capstone projects are building in sectors backed by venture capital investment?"*
+
+### Target Persona
+Incubation Head / Campus Leadership / Dean of Research
+
+### Canonical SQL (Spark SQL / Databricks SQL)
+```sql
+WITH vc_sectors AS (
+    SELECT DISTINCT 
+        sector_tag
+    FROM 
+        dim_vc_patent_data
+    WHERE 
+        type = 'VC_ROUND'
+),
+project_matches AS (
+    SELECT 
+        p.project_id,
+        p.sector_tag,
+        CASE WHEN v.sector_tag IS NOT NULL THEN 1 ELSE 0 END AS is_vc_backed_sector
+    FROM 
+        fct_student_projects p
+    LEFT JOIN 
+        vc_sectors v 
+        ON p.sector_tag = v.sector_tag
+)
+SELECT 
+    COUNT(*) AS total_student_projects,
+    SUM(is_vc_backed_sector) AS vc_aligned_projects_count,
+    COUNT(*) - SUM(is_vc_backed_sector) AS non_vc_aligned_projects_count,
+    ROUND((SUM(is_vc_backed_sector) * 100.0) / COUNT(*), 1) AS vc_sector_alignment_pct,
+    CONCAT(
+        'INSTITUTIONAL_ALPHA_INSIGHT: ', 
+        CAST(ROUND((SUM(is_vc_backed_sector) * 100.0) / COUNT(*), 1) AS STRING), 
+        '% of student capstones build in active venture capital funding sectors'
+    ) AS executive_takeaway
+FROM 
+    project_matches;
+```

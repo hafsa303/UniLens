@@ -1,21 +1,7 @@
--- ==============================================================================
--- Query D: Unmatched Student Project Recommendation & Hackathon Theme Fit
--- Dialect: Databricks Spark SQL
--- 
--- SPARK SQL CONVERSIONS APPLIED:
--- 1. Converted date difference math from DuckDB subtraction `(date - literal)` to
---    Spark SQL's native `datediff(endDate, startDate)`:
---    `datediff(CAST(registration_deadline AS DATE), DATE '2026-09-01') AS days_until_deadline`.
---    Note: In Spark SQL, `datediff(a, b)` calculates (a - b) in days.
--- 2. Used explicit `CAST(registration_deadline AS DATE)` with `BETWEEN DATE '2026-09-01' AND DATE '2026-09-30'`.
--- 3. Window ranking `DENSE_RANK() OVER (PARTITION BY hackathon_id ORDER BY theme_fit_score DESC, project_id ASC)`
---    evaluated deterministically in final SELECT.
---
--- Business Logic:
--- Identifies student engineering projects that currently have NO patent filings 
--- and NO commercialization links, scoring and ranking them against upcoming 
--- hackathons whose registration closes within the next 30 days (Sept 2026 window).
--- ==============================================================================
+-- ================================================================
+-- BUSINESS QUESTION: How do unpatented student projects rank in theme affinity and technology fit for upcoming hackathon grant opportunities closing within the next 30 days?
+-- USED BY: Hackathon Coordinator / Student Innovation Club Lead
+-- ================================================================
 
 WITH upcoming_hackathons AS (
     SELECT 
@@ -63,16 +49,14 @@ scored_matches AS (
         h.organizer,
         h.registration_deadline,
         h.days_until_deadline,
-        -- Calculate theme alignment score
+        -- Weighted scoring based on stack and theme alignment
         (
-            -- Sector alignment bonus
             (CASE 
                 WHEN h.hackathon_id = 'HCK_501' AND p.sector_tag IN ('CivicTech', 'DeepTech') THEN 2
                 WHEN h.hackathon_id = 'HCK_502' AND p.sector_tag IN ('AgriTech', 'LogisticsTech') THEN 2
                 WHEN h.hackathon_id = 'HCK_503' AND p.sector_tag IN ('FinTech', 'Cybersecurity') THEN 2
                 ELSE 0 
              END) +
-            -- Tech stack keyword overlaps
             (CASE WHEN p.tech_stack_tags LIKE '%Edge AI%' AND h.theme_tags LIKE '%Edge AI%' THEN 2 ELSE 0 END) +
             (CASE WHEN p.tech_stack_tags LIKE '%Computer Vision%' AND h.theme_tags LIKE '%Computer Vision%' THEN 2 ELSE 0 END) +
             (CASE WHEN p.tech_stack_tags LIKE '%Smart Mobility%' AND h.theme_tags LIKE '%Smart Mobility%' THEN 2 ELSE 0 END) +

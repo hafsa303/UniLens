@@ -1,21 +1,7 @@
--- ==============================================================================
--- Query A: Unprotected Campus IP & Early VC Signal Detection
--- Dialect: Databricks Spark SQL
--- 
--- SPARK SQL CONVERSIONS APPLIED:
--- 1. Converted date subtraction math to Spark SQL's native `months_between(endDate, startDate)`
---    with `ROUND(..., 1)` to accurately compute fractional months (e.g. 9.1, 11.8).
--- 2. Converted interval arithmetic to Spark SQL's native `date_add(startDate, numDays)`:
---    - `date_add(CAST(p.submission_date AS DATE), 180)` for 6-month threshold.
---    - `date_add(CAST(p.submission_date AS DATE), 548)` for 18-month threshold.
--- 3. Explicit `CAST(... AS DATE)` on date columns (`p.submission_date`, `vc.date`) to ensure
---    strict Spark SQL type-safety and avoid runtime type coercion errors.
---
--- Business Logic:
--- Identifies student engineering projects whose sector/domain directly overlaps
--- with a VC funding round announced 6 to 18 months AFTER project submission,
--- but where ZERO patent protections were filed by the campus/students.
--- ==============================================================================
+-- ================================================================
+-- BUSINESS QUESTION: Which student engineering capstone projects match high-capital VC funding rounds announced within 6 to 18 months of submission where no institutional patent was filed?
+-- USED BY: Incubation Head / Dean of Research
+-- ================================================================
 
 SELECT 
     p.project_id,
