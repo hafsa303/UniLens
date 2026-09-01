@@ -409,17 +409,20 @@ flowchart TD
 3. Upload all 5 CSVs from [`data/`](file:///c:/Users/lenovo/Desktop/UNILENS/data).
 
 ### 2️⃣ Step 2: Execute Unified DDL & Ingestion Script
-Open **Databricks SQL Editor** and run [`sql/databricks_setup.sql`](file:///c:/Users/lenovo/Desktop/UNILENS/sql/databricks_setup.sql). This script creates all 5 Delta tables with explicit schemas and loads the data cleanly:
+Open **Databricks SQL Editor** and run [`sql/databricks_setup.sql`](file:///c:/Users/lenovo/Desktop/UNILENS/sql/databricks_setup.sql). This script initializes the Unity Catalog, schema, volume, and creates all 5 Delta tables with explicit schemas:
 ```sql
-CREATE DATABASE IF NOT EXISTS unilens_db;
-USE unilens_db;
+CREATE CATALOG IF NOT EXISTS unilens_db;
+CREATE SCHEMA IF NOT EXISTS unilens_db.default;
+CREATE VOLUME IF NOT EXISTS unilens_db.default.raw_data;
+USE CATALOG unilens_db;
+USE SCHEMA default;
 
-CREATE OR REPLACE TABLE unilens_db.fct_student_projects (
+CREATE OR REPLACE TABLE unilens_db.default.fct_student_projects (
     project_id STRING, title STRING, repo_url STRING, tech_stack_tags STRING,
     sector_tag STRING, dept STRING, faculty_guide_id STRING, submission_date DATE
 ) USING DELTA;
 
-COPY INTO unilens_db.fct_student_projects
+COPY INTO unilens_db.default.fct_student_projects
 FROM '/Volumes/unilens_db/default/raw_data/fct_student_projects.csv'
 FILEFORMAT = CSV FORMAT_OPTIONS ('header' = 'true', 'dateFormat' = 'yyyy-MM-dd');
 -- (Repeated for all 5 tables in sql/databricks_setup.sql)
@@ -428,8 +431,8 @@ FILEFORMAT = CSV FORMAT_OPTIONS ('header' = 'true', 'dateFormat' = 'yyyy-MM-dd')
 ### 3️⃣ Step 3: Launch & Train Databricks Genie Space
 1. Click **Genie** in Databricks -> **New Genie Space**.
 2. Name: `UNI-LENS Campus Intelligence`.
-3. Select the 5 Delta tables in `unilens_db`.
-4. Paste the 10 benchmark queries from [`docs/genie_sample_queries.md`](file:///c:/Users/lenovo/Desktop/UNILENS/docs/genie_sample_queries.md) into the **Benchmark Questions** tab.
+3. Select the 5 Delta tables in `unilens_db.default`.
+4. Paste the benchmark queries from [`docs/genie_sample_queries.md`](file:///c:/Users/lenovo/Desktop/UNILENS/docs/genie_sample_queries.md) into the **Benchmark Questions** tab.
 5. Start asking questions in plain English!
 
 ---
