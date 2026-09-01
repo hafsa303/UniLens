@@ -1,0 +1,41 @@
+student_id,self_reported_skills,course_grades_summary,past_hackathon_history
+STU_601,"Backend Architecture, Go, FastAPI, PostgreSQL, Docker, Redis, Distributed Systems","Data Structures: S, Operating Systems: S, DBMS: S, Cloud Computing: A, Computer Networks: S","Smart India Hackathon 2024 (Team Garuda), HackBangalore 2024 (Team Garuda)"
+STU_602,"High-Throughput Backend, Rust, PostgreSQL, Apache Kafka, Microservices, Docker","Data Structures: S, Operating Systems: S, DBMS: A, Distributed Systems: S, Algorithms: S",KITS Buildathon 2025 (Team Kaveri)
+STU_603,"Backend API Development, Python, FastAPI, PostgreSQL, MongoDB, Redis, AWS Lambda","Data Structures: A, DBMS: S, Cloud Architecture: S, Operating Systems: A, Web Eng: S","Koramangala TechSprint 2024 (Team Alpha), RV Buildathon 2025 (Team Alpha)"
+STU_604,"Distributed Systems, Go, gRPC, PostgreSQL, Kubernetes, TimescaleDB","Operating Systems: S, DBMS: S, Computer Networks: S, Data Structures: S, Cloud: A",None - First time participant
+STU_605,"Backend Scalability, Java Spring Boot, PostgreSQL, Docker, RabbitMQ, Redis","Data Structures: A, DBMS: S, OOP: S, Software Engineering: S, OS: A",Nandi Hack 2024 (Team Shunya)
+STU_606,"Backend Systems, Node.js, Express, PostgreSQL, Redis, Docker, Microservices","Data Structures: S, DBMS: A, Computer Networks: A, OS: S, Cloud: A",HackBangalore 2024 (Team Beta)
+STU_607,"Backend Engineering, Go, FastAPI, SQLite, Docker, Celery, REST APIs","Data Structures: A, DBMS: A, Operating Systems: A, Web Technologies: S",None - First time participant
+STU_608,"High Performance Backend, C++, Go, PostgreSQL, Memory Optimization, Linux Internals","Operating Systems: S, System Programming: S, Data Structures: S, DBMS: A",KITS Buildathon 2025 (Team Sigma)
+STU_609,"Cloud Backend, Python, Django REST, PostgreSQL, Docker, Elasticsearch","DBMS: S, Data Structures: A, Cloud Computing: S, Software Testing: A",Smart India Hackathon 2024 (Team Delta)
+STU_610,"API Architecture, FastAPI, Go, GraphQL, PostgreSQL, Redis","Data Structures: S, DBMS: S, Operating Systems: A, Algorithms: S",None - First time participant
+STU_611,"Rapid Prototyping, Figma, React, Next.js, TailwindCSS, TypeScript, UI/UX Design","Web Architecture: S, Human Computer Interaction: S, User Interface Design: S, Frontend Eng: S","KITS Buildathon 2025 (Team Kaveri), HackBangalore 2024 (Team Kaveri)"
+STU_612,"Rapid UI Prototyping, Next.js, TailwindCSS, Figma, Framer Motion, React Native, Vercel","UI/UX Design: S, Mobile App Dev: S, Web Technologies: S, HCI: A, Computer Graphics: S",Smart India Hackathon 2024 (Team Garuda)
+STU_613,"Rapid Prototyping, Figma, React, TailwindCSS, TypeScript, Shadcn UI, Zustand","Frontend Architecture: S, User Experience Design: S, Web Dev: S, HCI: S",None - First time participant
+STU_614,"UI/UX Design, Rapid Prototyping, Vue.js, TailwindCSS, Figma, Adobe XD, Storybook","Human Computer Interaction: S, Web Systems: A, Visual Design: S, Multimedia: S",Koramangala TechSprint 2024 (Team Alpha)
+STU_615,"Interactive UI Prototyping, React, TailwindCSS, Three.js, Canvas, Figma, TypeScript","Computer Graphics: S, UI Design: S, Web Engineering: S, HCI: A",None - First time participant
+STU_616,"Rapid Prototyping, SvelteKit, TailwindCSS, Figma, Flutter, Responsive UI","Mobile Dev: S, Web Development: S, HCI: A, Software Design: A",Nandi Hack 2024 (Team Shunya)
+STU_617,"Frontend Rapid Prototyping, React, Next.js, Chakra UI, Figma, Redux Toolkit","Web Architecture: A, UI/UX Design: S, Frontend Engineering: S, HCI: A",HackBangalore 2024 (Team Beta)
+STU_618,"UI/UX & Product Prototyping, Figma, TailwindCSS, HTML5 Canvas, WebGL, React","Visual Design: S, User Interaction: S, Web Technologies: A, Graphics: S",None - First time participant
+STU_619,"Rapid Prototyping, React Native, TailwindCSS, Figma, Expo, Supabase","Mobile Engineering: S, UI Design: S, Database Systems: A, Web Dev: A",Smart India Hackathon 2024 (Team Delta)
+STU_620,"Design Systems, Figma to Code, React, TailwindCSS, Next.js, Storybook","UI/UX Design: S, Human Centered Design: S, Web Architecture: S, HCI: S",None - First time participant
+STU_621,"Machine Learning, PyTorch, LangChain, Databricks, Computer Vision, YOLOv8, MLflow","Machine Learning: S, Deep Learning: S, Mathematics for ML: S, Python Programming: S",Smart India Hackathon 2024 (Team Garuda)
+STU_622,"Computer Vision, Edge AI, TensorRT, PyTorch, OpenCV, Embedded Linux","Computer Vision: S, Digital Signal Processing: S, Deep Learning: A, Embedded Systems: S",KITS Buildathon 2025 (Team Kaveri)
+STU_623,"NLP, HuggingFace Transformers, Indic NLP, LangChain, Vector Databases, Python","Natural Language Processing: S, Deep Learning: S, AI Ethics: A, Linear Algebra: S",None - First time participant
+STU_624,"Deep Learning, PyTorch Geometric, Graph Neural Networks, Scikit-Learn, Pandas","Graph Theory: S, Machine Learning: S, Algorithms: S, Statistics: S",Koramangala TechSprint 2024 (Team Alpha)
+STU_625,"Generative AI, LLMs, Prompt Engineering, RAG Pipelines, Databricks, LangChain","Artificial Intelligence: S, Cloud Data Engineering: S, Machine Learning: A",None - First time participant
+STU_626,"Time Series Forecasting, Anomaly Detection, PyTorch, TensorFlow, Edge ML","Time Series Analysis: S, Statistical Inference: S, Pattern Recognition: A",Nandi Hack 2024 (Team Shunya)
+STU_627,"BioInformatics ML, Signal Processing, Scipy, PyTorch, Wearable Sensor Analytics","Bio-Medical Signals: S, Machine Learning: S, DSP: S, Data Structures: A",None - First time participant
+STU_628,"Reinforcement Learning, Robotics Control, ROS2, PyTorch, Simulation (Gazebo)","Robotics: S, Control Systems: S, Reinforcement Learning: S, Algorithms: A",KITS Buildathon 2025 (Team Sigma)
+STU_629,"Data Engineering, Databricks, Apache Spark, SQL, Delta Lake, Python","Big Data Analytics: S, DBMS: S, Data Warehousing: S, Distributed Systems: A",Smart India Hackathon 2024 (Team Delta)
+STU_630,"Speech Processing, Audio ML, Whisper Fine-Tuning, PyTorch, Python","Speech & Audio Processing: S, Deep Learning: S, Information Theory: A",None - First time participant
+STU_631,"Full-Stack Web, Node.js, React, MongoDB, Express, Docker, AWS","Web Development: S, DBMS: A, Cloud Architecture: A, Software Eng: S",HackBangalore 2024 (Team Beta)
+STU_632,"Embedded Systems, C, ESP32, LoRaWAN, MQTT, FreeRTOS, Hardware Debugging","Microcontrollers: S, Embedded Systems: S, Computer Networks: A, Circuit Design: S",None - First time participant
+STU_633,"Smart Contract Dev, Solidity, Web3.js, Hardhat, Ethereum, DeFi Protocols","Cryptography: S, Distributed Ledgers: S, Network Security: A, DBMS: A",Koramangala TechSprint 2024 (Team Alpha)
+STU_634,"Cybersecurity, Penetration Testing, eBPF, Linux Kernel, Wireshark, Python","Network Security: S, Operating Systems: S, Ethical Hacking: S, Computer Networks: S",None - First time participant
+STU_635,"DevOps & Cloud, Kubernetes, Terraform, GitHub Actions, Docker, Prometheus","Cloud Infrastructure: S, OS: S, System Administration: S, Networks: A",Smart India Hackathon 2024 (Team Garuda)
+STU_636,"Full-Stack Mobile, Flutter, Firebase, Dart, Node.js, REST APIs","Mobile Dev: S, OOP: S, Database Systems: A, Web Eng: A",None - First time participant
+STU_637,"IoT Edge Engineering, Raspberry Pi, Python, OpenCV, MQTT, BLE","Sensors & Actuators: S, Embedded Linux: S, Microprocessors: A",KITS Buildathon 2025 (Team Kaveri)
+STU_638,"Full-Stack Development, Next.js, Django, PostgreSQL, TailwindCSS, Docker","Software Eng: S, DBMS: S, Web Tech: S, OS: A",None - First time participant
+STU_639,"Firmware Engineering, Embedded C++, ARM Cortex-M, CAN Bus, RTOS","Embedded C: S, Digital Electronics: S, Microcontrollers: S, OS: A",Nandi Hack 2024 (Team Shunya)
+STU_640,"Full-Stack Engineering, TypeScript, React, Go, PostgreSQL, GraphQL","Web Systems: S, DBMS: S, Data Structures: S, Algorithms: A",None - First time participant

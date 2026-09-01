@@ -1,0 +1,21 @@
+record_id,type,startup_or_applicant_name,sector_tag,date,capital_amount,related_project_id
+VCP_401,VC_ROUND,UrbanPulse Dynamics Pvt Ltd,CivicTech,2023-11-20,3500000,
+VCP_402,VC_ROUND,NammaGrid Power Innovations,CleanTech,2024-01-15,4200000,
+VCP_403,VC_ROUND,Kaveri BioSensors & Diagnostics,HealthTech,2024-03-10,2800000,
+VCP_404,VC_ROUND,Malnad AgriRobotics Tech,AgriTech,2024-04-22,1800000,
+VCP_405,VC_ROUND,Bengaluru PayShield Systems,FinTech,2024-06-18,5500000,
+VCP_406,VC_ROUND,SilkRoute ColdChain Telematics,LogisticsTech,2024-07-28,2200000,
+VCP_407,PATENT,Silicon City Autonomous Labs (Prof. Suresh K),CivicTech,2023-06-14,,PRJ_107
+VCP_408,PATENT,Nandi Neuromorphic Vision Systems (Prof. Priya V),DeepTech,2023-08-05,,PRJ_108
+VCP_409,PATENT,Indiranagar Zero-Knowledge Cryptography (Prof. Divya B),Cybersecurity,2023-09-19,,PRJ_109
+VCP_410,VC_ROUND,AstraPulse HealthTech Labs,HealthTech,2025-01-15,4000000,
+VCP_411,VC_ROUND,Indiranagar CyberShield AI,Cybersecurity,2025-02-14,3200000,
+VCP_412,VC_ROUND,Vidyut Storage Systems,CleanTech,2025-03-22,6000000,
+VCP_413,VC_ROUND,Nandi Edge AI Labs,DeepTech,2025-04-10,2500000,
+VCP_414,VC_ROUND,Koramangala BioSensors,HealthTech,2025-05-01,3800000,
+VCP_415,VC_ROUND,Veloce AgriRobotics,AgriTech,2025-05-18,1900000,
+VCP_416,VC_ROUND,Bhasha Indic AI,EdTech,2025-06-01,2100000,
+VCP_417,VC_ROUND,Kaveri Quantum Defense,Cybersecurity,2025-06-15,7500000,
+VCP_418,PATENT,HSR Distributed Energy Trust,CleanTech,2025-02-10,,
+VCP_419,VC_ROUND,Whitefield Drone Logistics,LogisticsTech,2025-07-02,4800000,
+VCP_420,VC_ROUND,Nandi FinTech Protocol,FinTech,2025-07-19,3100000,
