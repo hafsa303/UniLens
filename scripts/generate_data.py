@@ -215,7 +215,7 @@ def generate_student_projects():
             "title": "Wearable ECG Arrhythmia Tele-Monitoring Band for Senior Citizens",
             "repo_url": "https://github.com/campus-lens/wearable-ecg-band",
             "tech_stack_tags": "HealthTech, Wearables, Edge Computing, EHR, BLE",
-            "sector_tag": "HealthTech",
+            "sector_tag": "AssistiveTech",
             "dept": "ECE",
             "faculty_guide_id": "FAC_211",
             "submission_date": "2026-02-10"
@@ -245,7 +245,7 @@ def generate_student_projects():
             "title": "AI-Assisted Automated Radiograph Scribing & Triage for Rural Clinics",
             "repo_url": "https://github.com/campus-lens/rural-radiograph-triage",
             "tech_stack_tags": "HealthTech, BioInformatics, Computer Vision, PyTorch, FastAPI",
-            "sector_tag": "HealthTech",
+            "sector_tag": "AssistiveTech",
             "dept": "AI&DS",
             "faculty_guide_id": "FAC_211",
             "submission_date": "2026-03-28"
@@ -276,7 +276,7 @@ def generate_student_projects():
         ("Ultra-Low Latency Algorithmic Trading Gateway with FPGA", "FinTech, FPGA, C++, Low Latency, FastPay", "FinTech", "ECE", "FAC_208"),
         ("Smart Garbage Compactor with Fill-Level Prediction & Route Optimizer", "CivicTech, IoT, Smart Cities, Python, Flask", "CivicTech", "MECH", "FAC_209"),
         ("Container Escape Detection in Multi-Tenant Cloud Environments", "Cybersecurity, Zero Trust, Network Security, Linux Kernel, Go", "Cybersecurity", "CSE", "FAC_210"),
-        ("Non-Intrusive Sleep Apnea Detection using Millimeter-Wave Radar", "HealthTech, Wearables, Edge Computing, Signal Processing", "HealthTech", "ECE", "FAC_211"),
+        ("Non-Intrusive Sleep Apnea Detection using Millimeter-Wave Radar", "HealthTech, Wearables, Edge Computing, Signal Processing", "AssistiveTech", "ECE", "FAC_211"),
         ("Decentralized Micro-Insurance for Monsoon Crop Failure", "FinTech, Blockchain, Smart Contracts, Weather API", "FinTech", "ISE", "FAC_205"),
         ("Smart Warehouse Pallet Tracker with Passive RFID & BLE Beacons", "LogisticsTech, IoT Sensors, Cold Chain, BLE, Python", "LogisticsTech", "MECH", "FAC_209"),
         ("Spiking Neural Network for Edge Keyword Spotting in Microcontrollers", "DeepTech, Neuromorphic Vision, Spike Neural Networks, C++", "DeepTech", "AI&DS", "FAC_206"),
@@ -284,8 +284,8 @@ def generate_student_projects():
         ("Hybrid Wind-Solar Microgrid Simulator for Hilly Terrains", "CleanTech, Smart Grid, Renewable Energy, MATLAB, Python", "CleanTech", "EEE", "FAC_212"),
         ("Post-Quantum Cryptographic Key Exchange for Embedded Microcontrollers", "Cybersecurity, Cryptography, Rust, Embedded Systems", "Cybersecurity", "CSE", "FAC_210"),
         ("Automated Silk Yarn Quality Inspection using High-Speed Line Scan Cameras", "DeepTech, Computer Vision, Edge AI, Industrial IoT", "DeepTech", "ECE", "FAC_204"),
-        ("Indic Multi-Lingual Chatbot for Citizen Grievance Redressal", "NLP, Indic NLP, LLMs, LangChain, FastAPI", "CivicTech", "AI&DS", "FAC_207"),
-        ("Point-of-Care Microfluidic Blood Cell Analyzer with Edge AI", "HealthTech, BioInformatics, Edge AI, Python, Embedded C", "HealthTech", "AI&DS", "FAC_211")
+        ("Indic Multi-Lingual Chatbot for Citizen Grievance Redressal", "NLP, Indic NLP, LLMs, LangChain, FastAPI", "HeritageTech", "AI&DS", "FAC_207"),
+        ("Point-of-Care Microfluidic Blood Cell Analyzer with Edge AI", "HealthTech, BioInformatics, Edge AI, Python, Embedded C", "SpaceTech", "AI&DS", "FAC_211")
     ]
     
     start_id = 121
