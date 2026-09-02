@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>UNI-LENS | Intelligence Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "text-dim": "#888888",
+                        "tertiary-fixed": "#ffdcc5",
+                        "primary-container": "#8083ff",
+                        "on-surface-variant": "#c7c4d7",
+                        "on-primary-fixed": "#07006c",
+                        "background": "#131314",
+                        "surface-bright": "#39393a",
+                        "surface-dim": "#131314",
+                        "secondary-fixed": "#f0dbff",
+                        "on-primary": "#1000a9",
+                        "outline-variant": "#464554",
+                        "surface-container-lowest": "#0e0e0f",
+                        "data-warning": "#F59E0B",
+                        "primary-fixed": "#e1e0ff",
+                        "border-muted": "#27272A",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "on-secondary": "#490080",
+                        "on-error": "#690005",
+                        "surface-tint": "#c0c1ff",
+                        "secondary-container": "#6f00be",
+                        "on-secondary-fixed-variant": "#6900b3",
+                        "secondary": "#ddb7ff",
+                        "tertiary-container": "#d97721",
+                        "on-secondary-fixed": "#2c0051",
+                        "primary": "#c0c1ff",
+                        "tertiary-fixed-dim": "#ffb783",
+                        "on-surface": "#e5e2e3",
+                        "error": "#ffb4ab",
+                        "surface-container-low": "#1c1b1c",
+                        "surface": "#131314",
+                        "tertiary": "#ffb783",
+                        "inverse-surface": "#e5e2e3",
+                        "on-error-container": "#ffdad6",
+                        "surface-container": "#201f20",
+                        "on-background": "#e5e2e3",
+                        "on-tertiary-fixed-variant": "#703700",
+                        "surface-deep": "#000000",
+                        "on-tertiary-fixed": "#301400",
+                        "outline": "#908fa0",
+                        "inverse-on-surface": "#313031",
+                        "inverse-primary": "#494bd6",
+                        "on-tertiary-container": "#452000",
+                        "on-primary-container": "#0d0096",
+                        "on-secondary-container": "#d6a9ff",
+                        "surface-variant": "#353436",
+                        "surface-container-high": "#2a2a2b",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "on-tertiary": "#4f2500",
+                        "error-container": "#93000a",
+                        "surface-container-highest": "#353436",
+                        "surface-elevated": "#1C1C1E",
+                        "secondary-fixed-dim": "#ddb7ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "container-max": "1440px",
+                        "margin-desktop": "48px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "mono-label": ["JetBrains Mono"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "mono-label": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(28, 28, 30, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid #27272A;
+            transition: all 0.3s ease;
+        }
+        
+        .glow-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .glow-hover:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+        }
+
+        .card-3d {
+            transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .card-3d:hover {
+            transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) translateY(-4px);
+        }
+        
+        .ai-pulse {
+            animation: pulse-glow 2s infinite;
+        }
+        
+        .badge-pulse {
+            animation: badge-pulse 2s infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+        }
+        
+        @keyframes badge-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 180, 171, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(255, 180, 171, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 180, 171, 0); }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        .stagger-5 { animation-delay: 0.5s; }
+
+        /* Shader background container */
+        #shader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .btn-glass {
+            transition: all 0.2s ease;
+        }
+        .btn-glass:hover {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+        }
+
+        threejs-scene {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased overflow-x-hidden min-h-screen">
+<!-- Shader Background -->
+<div id="shader-container">
+<canvas id="glcanvas"></canvas>
+</div>
+<!-- Content Wrapper for z-index -->
+<div class="relative z-10 min-h-screen">
+<!-- SideNavBar -->
+<nav class="fixed left-0 h-full w-64 border-r border-border-muted bg-surface-container/80 dark:bg-surface-container/80 backdrop-blur-xl flex flex-col justify-between py-6 z-50 hidden md:flex animate-fade-in-up">
+<div class="px-6 flex flex-col gap-8">
+<div class="flex items-center gap-3">
+<img alt="University Researcher Avatar" class="w-10 h-10 rounded-full border border-border-muted" data-alt="A small circular avatar placeholder image with dark background and light initials, representing a university researcher profile within a modern digital interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxIvtsjdchhGs4F5NaGSRpfwZFRqN1iJJhyhspRuKJvPFLvDTg3b2EJ-t9QjGT-jZh04XQYRqaIgFl-atg3Zg3oqu8Ci0nlEB_0V335SWen4nVwaHxmsr-K_hSy_RvK0EyT2HBCFQ_IsLabTa4uUjGUCgbO4K68qcXYli444vFmcWbMey2is8ME5ghmN8K6UJOsWPN4Egy9wXc-x80hkT60SETOPNCIFT-deNRf9B0jjvwZ6qC8es"/>
+<div>
+<h1 class="font-headline-lg text-headline-lg font-bold tracking-tighter text-primary dark:text-primary leading-none" style="font-size: 20px;">UNI-LENS</h1>
+<p class="font-body-sm text-body-sm text-text-dim leading-none mt-1">University Intelligence</p>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-primary dark:text-primary bg-primary-container/20 border-r-2 border-primary transition-transform scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-body-md">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high/50 duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-body-md">AI Intelligence</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high/50 duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">radar</span>
+<span class="font-body-md">IP Radar</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high/50 duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-body-md">Team Builder</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high/50 duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">rocket_launch</span>
+<span class="font-body-md">Research -&gt; Startup</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high/50 duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">handshake</span>
+<span class="font-body-md">Hackathon Matcher</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high/50 duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-body-md">Campus Graph</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high/50 duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">database</span>
+<span class="font-body-md">Data Explorer</span>
+</a>
+</div>
+</div>
+<div class="px-6 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high/50 duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high/50 duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-body-md">User Profile</span>
+</a>
+</div>
+</nav>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] h-16 bg-background/80 dark:bg-background/80 backdrop-blur-md border-b border-border-muted flex items-center justify-between px-4 md:px-8 z-40 animate-fade-in-up stagger-1">
+<div class="flex items-center flex-1">
+<!-- Mobile Menu Button -->
+<button class="md:hidden mr-4 text-on-surface-variant hover:text-on-surface btn-glass p-2 rounded-lg">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="relative w-full max-w-md focus-within:ring-1 focus-within:ring-primary rounded-lg transition-shadow">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-high/50 backdrop-blur-sm border border-transparent focus:border-border-muted rounded-lg pl-10 pr-4 py-2 text-body-md text-on-surface placeholder:text-on-surface-variant focus:ring-0 focus:outline-none transition-all focus:bg-surface-container-highest/80" placeholder="Search campus data..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-on-surface-variant btn-glass rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant btn-glass rounded-full hidden sm:block">
+<span class="material-symbols-outlined">apps</span>
+</button>
+<img alt="Researcher Profile" class="w-8 h-8 rounded-full ml-2 border border-border-muted cursor-pointer hover:border-primary transition-colors" data-alt="A small circular avatar placeholder image with light background and dark initials, representing a user profile in a top navigation bar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuWhw_H6X9tVc_kYg3O3DiVyzk2-9OhIaq0YYtzp6BvCK4zrMUir9bLkPW-rtdS0GuHXTRfHLCJBP1IZR2kr_ckGiqwXsjNni0h54IaG849S1KbGo6jVQrvhIFQale0AEi0xmPAYwz1yNZ7zHentF8CEIhKjO6_tzVAikFSIDx78LrfJ6ChZQwYefMD4RzfUmpkMyon-5HrSKIRoxp2c_fyOJJTnHYBnule-pkqiQEczAb0IpI2XY"/>
+</div>
+</header>
+<!-- Main Content -->
+<main class="pt-24 pb-12 px-4 md:px-8 lg:px-12 md:ml-64 max-w-container-max mx-auto">
+<!-- Header Section -->
+<div class="mb-10 animate-fade-in-up stagger-1">
+<h2 class="font-display-lg text-display-lg text-on-surface mb-2">UNI-LENS</h2>
+<p class="font-headline-lg text-headline-lg text-primary-fixed-dim mb-2 text-2xl">University intelligence, connected.</p>
+<p class="font-body-md text-body-md text-text-dim max-w-2xl">Discover relationships, risks, and opportunities hidden across your campus data.</p>
+</div>
+<!-- Hero Intelligence Panel -->
+<div class="glass-panel glow-hover rounded-xl p-8 mb-8 relative overflow-hidden group animate-fade-in-up stagger-2">
+
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+<div class="relative z-10 flex flex-col md:flex-row justify-between items-start gap-6">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-2 h-2 rounded-full bg-error badge-pulse"></div>
+<span class="font-mono-label text-mono-label text-error uppercase tracking-wider bg-error/10 px-2 py-1 rounded">Potential IP Risk Detected</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-2" style="font-size: 24px;">Campus Intelligence</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Your university data reveals more when you connect it.</p>
+<div class="flex flex-wrap items-center gap-2 text-sm font-mono-label">
+<div class="bg-surface-container-high/50 hover:bg-surface-container-highest transition-colors px-3 py-2 border border-border-muted rounded flex items-center gap-2 cursor-default">
+<span class="material-symbols-outlined text-primary text-sm">code</span>
+<span>Edge AI Project</span>
+</div>
+<span class="material-symbols-outlined text-border-muted">arrow_forward</span>
+<div class="bg-surface-container-high/50 hover:bg-surface-container-highest transition-colors px-3 py-2 border border-border-muted rounded flex items-center gap-2 cursor-default">
+<span class="material-symbols-outlined text-tertiary text-sm">memory</span>
+<span>CivicTech</span>
+</div>
+<span class="material-symbols-outlined text-border-muted">arrow_forward</span>
+<div class="bg-surface-container-high/50 hover:bg-surface-container-highest transition-colors px-3 py-2 border border-border-muted rounded flex items-center gap-2 cursor-default">
+<span class="material-symbols-outlined text-secondary text-sm">rocket_launch</span>
+<span>UrbanPulse Dynamics</span>
+</div>
+<span class="material-symbols-outlined text-border-muted">arrow_forward</span>
+<div class="bg-surface-container-high/50 hover:bg-surface-container-highest transition-colors px-3 py-2 border border-border-muted rounded flex items-center gap-2 cursor-default">
+<span class="material-symbols-outlined text-data-warning text-sm">payments</span>
+<span>$3.5M</span>
+</div>
+<span class="material-symbols-outlined text-border-muted">arrow_forward</span>
+<div class="bg-error/10 hover:bg-error/20 transition-colors px-3 py-2 border border-error/30 rounded flex items-center gap-2 text-error cursor-default">
+<span class="material-symbols-outlined text-sm">warning</span>
+<span>No Patent Detected</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Key Metrics Bento Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+<div class="glass-panel card-3d p-5 rounded-lg flex flex-col justify-between glow-hover cursor-default animate-fade-in-up stagger-3">
+<span class="font-mono-label text-mono-label text-text-dim uppercase">Projects</span>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface">40</span>
+<span class="text-xs text-primary flex items-center"><span class="material-symbols-outlined text-xs">trending_up</span> 12%</span>
+</div>
+</div>
+<div class="glass-panel card-3d p-5 rounded-lg flex flex-col justify-between glow-hover cursor-default animate-fade-in-up stagger-3" style="animation-delay: 0.35s">
+<span class="font-mono-label text-mono-label text-text-dim uppercase">Skill Profiles</span>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface">40</span>
+<span class="text-xs text-primary flex items-center"><span class="material-symbols-outlined text-xs">trending_up</span> 8%</span>
+</div>
+</div>
+<div class="glass-panel card-3d p-5 rounded-lg flex flex-col justify-between glow-hover cursor-default animate-fade-in-up stagger-4">
+<span class="font-mono-label text-mono-label text-text-dim uppercase">Faculty Pubs</span>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface">25</span>
+<span class="text-xs text-on-surface-variant flex items-center"><span class="material-symbols-outlined text-xs">horizontal_rule</span> 0%</span>
+</div>
+</div>
+<div class="glass-panel card-3d p-5 rounded-lg flex flex-col justify-between glow-hover cursor-default animate-fade-in-up stagger-4" style="animation-delay: 0.45s">
+<span class="font-mono-label text-mono-label text-text-dim uppercase">Hackathons</span>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface">6</span>
+<span class="text-xs text-primary flex items-center"><span class="material-symbols-outlined text-xs">trending_up</span> 2</span>
+</div>
+</div>
+<div class="glass-panel card-3d p-5 rounded-lg flex flex-col justify-between glow-hover cursor-default col-span-2 md:col-span-1 lg:col-span-1 animate-fade-in-up stagger-5">
+<span class="font-mono-label text-mono-label text-text-dim uppercase">VC &amp; Patents</span>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface">20</span>
+<span class="text-xs text-primary flex items-center"><span class="material-symbols-outlined text-xs">trending_up</span> 15%</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Three.js Scene Script -->
+<script>
+const scene = new THREE.Scene();
+const container = document.querySelector('threejs-scene') || document.body;
+const width = container.clientWidth || window.innerWidth;
+const height = container.clientHeight || window.innerHeight;
+
+const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+camera.position.z = 5;
+camera.position.x = 2; // Offset to right to fit behind content better
+
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+renderer.setSize(width, height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+container.appendChild(renderer.domElement);
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+
+const pointLight = new THREE.PointLight(0x6366f1, 2);
+pointLight.position.set(5, 5, 5);
+scene.add(pointLight);
+
+// "Intelligence Core" - Abstract Geometric Data Representation
+const group = new THREE.Group();
+scene.add(group);
+
+const coreGeometry = new THREE.IcosahedronGeometry(1, 1);
+const coreMaterial = new THREE.MeshPhongMaterial({
+    color: 0x6366f1,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.8,
+    shininess: 100
+});
+const core = new THREE.Mesh(coreGeometry, coreMaterial);
+group.add(core);
+
+// Inner Solid Core
+const innerCoreGeom = new THREE.SphereGeometry(0.5, 32, 32);
+const innerCoreMat = new THREE.MeshStandardMaterial({
+    color: 0x818cf8,
+    emissive: 0x4f46e5,
+    emissiveIntensity: 0.5,
+    metalness: 0.8,
+    roughness: 0.2
+});
+const innerCore = new THREE.Mesh(innerCoreGeom, innerCoreMat);
+group.add(innerCore);
+
+// Floating "Data Points" (Particles)
+const particlesCount = 100;
+const positions = new Float32Array(particlesCount * 3);
+for(let i=0; i<particlesCount * 3; i++) {
+    positions[i] = (Math.random() - 0.5) * 6;
+}
+const particlesGeom = new THREE.BufferGeometry();
+particlesGeom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+const particlesMat = new THREE.PointsMaterial({
+    color: 0x6366f1,
+    size: 0.05,
+    transparent: true,
+    opacity: 0.6
+});
+const particles = new THREE.Points(particlesGeom, particlesMat);
+group.add(particles);
+
+// Mouse Interaction
+let mouseX3D = 0;
+let mouseY3D = 0;
+window.addEventListener('mousemove', (e) => {
+    mouseX3D = (e.clientX / window.innerWidth) - 0.5;
+    mouseY3D = (e.clientY / window.innerHeight) - 0.5;
+});
+
+// Resize Handler
+window.addEventListener('resize', () => {
+    const w = container.clientWidth || window.innerWidth;
+    const h = container.clientHeight || window.innerHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+});
+
+function animate3D(t) {
+    requestAnimationFrame(animate3D);
+    
+    const time = t * 0.001;
+    
+    // Slow rotations
+    core.rotation.y += 0.005;
+    core.rotation.x += 0.003;
+    innerCore.rotation.z += 0.01;
+    
+    // Pulse effect
+    const pulse = 1 + Math.sin(time * 2) * 0.05;
+    core.scale.set(pulse, pulse, pulse);
+    
+    // Mouse tracking lag
+    group.rotation.y += (mouseX3D * 0.5 - group.rotation.y) * 0.05;
+    group.rotation.x += (mouseY3D * 0.5 - group.rotation.x) * 0.05;
+    
+    // Drift particles
+    particles.rotation.y += 0.001;
+    
+    renderer.render(scene, camera);
+}
+animate3D(0);
+</script>
+<!-- WebGL Shader Script -->
+<script>
+        const canvas = document.getElementById('glcanvas');
+        const gl = canvas.getContext('webgl');
+
+        if (!gl) {
+            console.error('WebGL not supported');
+        }
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            gl.viewport(0, 0, canvas.width, canvas.height);
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const vsSource = `
+            attribute vec4 aVertexPosition;
+            varying vec2 v_texCoord;
+            void main() {
+                gl_Position = aVertexPosition;
+                v_texCoord = aVertexPosition.xy * 0.5 + 0.5;
+            }
+        `;
+
+        const fsSource = `
+            precision highp float;
+
+            uniform float u_time;
+            uniform vec2 u_resolution;
+            uniform vec2 u_mouse;
+            varying vec2 v_texCoord;
+
+            vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+            vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+            vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+
+            float snoise(vec2 v) {
+                const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+                                    -0.577350269189626, 0.024390243902439);
+                vec2 i  = floor(v + dot(v, C.yy));
+                vec2 x0 = v -   i + dot(i, C.xx);
+                vec2 i1;
+                i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+                vec4 x12 = x0.xyxy + C.xxzz;
+                x12.xy -= i1;
+                i = mod289(i);
+                vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0))
+                    + i.x + vec3(0.0, i1.x, 1.0));
+                vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy),
+                    dot(x12.zw,x12.zw)), 0.0);
+                m = m*m;
+                m = m*m;
+                vec3 x = 2.0 * fract(p * C.www) - 1.0;
+                vec3 h = abs(x) - 0.5;
+                vec3 a0 = x - floor(x + 0.5);
+                vec3 g = a0 * vec3(x0.x, x12.x, x12.z) + h * vec3(x0.y, x12.y, x12.w);
+                m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
+                return 130.0 * dot(m, g);
+            }
+
+            void main() {
+                vec2 uv = v_texCoord;
+                vec2 center = uv - 0.5;
+                center.x *= u_resolution.x / u_resolution.y;
+                
+                vec3 color1 = vec3(0.075, 0.075, 0.078); 
+                vec3 color2 = vec3(0.055, 0.055, 0.059); 
+                
+                vec3 accent = vec3(0.388, 0.4, 0.945); 
+                
+                float n1 = snoise(uv * 2.0 + u_time * 0.05);
+                float n2 = snoise(uv * 4.0 - u_time * 0.08);
+                float n3 = snoise(uv * 1.5 + u_time * 0.02);
+                
+                float pulse = sin(u_time * 0.5) * 0.5 + 0.5;
+                
+                float dist = length(uv - (u_mouse / u_resolution));
+                float mouseGlow = smoothstep(0.4, 0.0, dist) * 0.15;
+                
+                vec3 finalColor = mix(color1, color2, n1 * 0.5 + 0.5);
+                
+                float glow = smoothstep(0.8, 0.0, length(center)) * 0.3;
+                finalColor += accent * (n2 * 0.03 + mouseGlow + glow * 0.1);
+                
+                float vignette = smoothstep(1.5, 0.5, length(center));
+                finalColor *= vignette;
+
+                gl_FragColor = vec4(finalColor, 1.0);
+            }
+        `;
+
+        function loadShader(gl, type, source) {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                console.error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
+                gl.deleteShader(shader);
+                return null;
+            }
+            return shader;
+        }
+
+        const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vsSource);
+        const fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fsSource);
+
+        const shaderProgram = gl.createProgram();
+        gl.attachShader(shaderProgram, vertexShader);
+        gl.attachShader(shaderProgram, fragmentShader);
+        gl.linkProgram(shaderProgram);
+
+        if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+            console.error('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
+        }
+
+        const programInfo = {
+            program: shaderProgram,
+            attribLocations: {
+                vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
+            },
+            uniformLocations: {
+                time: gl.getUniformLocation(shaderProgram, 'u_time'),
+                resolution: gl.getUniformLocation(shaderProgram, 'u_resolution'),
+                mouse: gl.getUniformLocation(shaderProgram, 'u_mouse'),
+            },
+        };
+
+        const positions = [
+            -1.0,  1.0,
+             1.0,  1.0,
+            -1.0, -1.0,
+             1.0, -1.0,
+        ];
+
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = window.innerHeight - e.clientY;
+        });
+
+        let then = 0;
+        function render(now) {
+            now *= 0.001; 
+            const deltaTime = now - then;
+            then = now;
+
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+
+            gl.useProgram(programInfo.program);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+            gl.vertexAttribPointer(programInfo.attribLocations.vertexPosition, 2, gl.FLOAT, false, 0, 0);
+            gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
+
+            gl.uniform1f(programInfo.uniformLocations.time, now);
+            gl.uniform2f(programInfo.uniformLocations.resolution, canvas.width, canvas.height);
+            gl.uniform2f(programInfo.uniformLocations.mouse, mouseX, mouseY);
+
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+            requestAnimationFrame(render);
+        }
+        requestAnimationFrame(render);
+    </script>
+</body></html>

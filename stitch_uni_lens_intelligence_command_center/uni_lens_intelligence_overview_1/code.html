@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>UNI-LENS - Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error": "#690005",
+                      "on-tertiary": "#003824",
+                      "outline": "#908fa0",
+                      "on-tertiary-fixed-variant": "#005236",
+                      "primary-container": "#8083ff",
+                      "surface-dim": "#131314",
+                      "on-error-container": "#ffdad6",
+                      "secondary-fixed-dim": "#bdc2ff",
+                      "primary-fixed": "#e1e0ff",
+                      "tertiary": "#4edea3",
+                      "inverse-on-surface": "#313031",
+                      "on-background": "#e5e2e3",
+                      "inverse-surface": "#e5e2e3",
+                      "secondary-container": "#2f3aa3",
+                      "on-surface": "#e5e2e3",
+                      "on-secondary-fixed-variant": "#2f3aa3",
+                      "on-primary": "#1000a9",
+                      "secondary-fixed": "#e0e0ff",
+                      "primary": "#c0c1ff",
+                      "surface-container-high": "#2a2a2b",
+                      "surface-bright": "#3a393a",
+                      "surface-tint": "#c0c1ff",
+                      "surface-container-highest": "#353436",
+                      "surface": "#131314",
+                      "on-primary-fixed-variant": "#2f2ebe",
+                      "surface-variant": "#353436",
+                      "surface-container-lowest": "#0e0e0f",
+                      "inverse-primary": "#494bd6",
+                      "tertiary-container": "#00885d",
+                      "on-tertiary-container": "#000703",
+                      "error-container": "#93000a",
+                      "on-primary-container": "#0d0096",
+                      "surface-container": "#201f20",
+                      "tertiary-fixed": "#6ffbbe",
+                      "on-surface-variant": "#c7c4d7",
+                      "on-secondary-container": "#a8afff",
+                      "on-secondary-fixed": "#000767",
+                      "error": "#ffb4ab",
+                      "outline-variant": "#464554",
+                      "on-tertiary-fixed": "#002113",
+                      "background": "#131314",
+                      "tertiary-fixed-dim": "#4edea3",
+                      "surface-container-low": "#1c1b1c",
+                      "primary-fixed-dim": "#c0c1ff",
+                      "on-primary-fixed": "#07006c",
+                      "on-secondary": "#131e8c",
+                      "secondary": "#bdc2ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "section-gap": "40px",
+                      "gutter": "24px",
+                      "card-padding": "20px",
+                      "container-margin": "32px",
+                      "sidebar-width": "240px"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "display-lg": ["Hanken Grotesk"],
+                      "label-sm": ["JetBrains Mono"],
+                      "body-lg": ["Inter"],
+                      "metric-xl": ["Hanken Grotesk"],
+                      "headline-md": ["Hanken Grotesk"],
+                      "headline-lg": ["Hanken Grotesk"],
+                      "headline-lg-mobile": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "label-sm": ["11px", {"lineHeight": "1.2", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                      "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                      "metric-xl": ["40px", {"lineHeight": "1", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+                      "headline-md": ["20px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { background-color: #131314; color: #e5e2e3; }
+        .glass-panel { background: rgba(17, 17, 20, 0.7); backdrop-filter: blur(12px); border: 1px solid #464554; }
+        .glow-line { box-shadow: 0 0 10px rgba(192, 193, 255, 0.5); }
+        
+        /* Pulse Animation for Nodes */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(192, 193, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(192, 193, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(192, 193, 255, 0); }
+        }
+        .active-node { animation: pulse-ring 2s infinite; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #464554; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #908fa0; }
+    </style>
+</head>
+<body class="font-body-md antialiased overflow-hidden flex h-screen w-screen">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full p-4 overflow-y-auto bg-surface dark:bg-surface text-primary dark:text-primary font-body-md text-body-md fixed left-0 top-0 h-full w-sidebar-width border-r border-outline-variant z-50">
+<div class="mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">UNI-LENS</h1>
+<p class="text-on-surface-variant font-label-sm text-label-sm mt-1 uppercase tracking-wider">University Intelligence</p>
+</div>
+<div class="flex-1 space-y-2">
+<!-- Active: Overview -->
+<a class="flex items-center gap-3 p-3 rounded-lg text-primary font-bold bg-secondary-container/20 transition-transform scale-[0.98]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span>AI Intelligence</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">radar</span>
+<span>IP Radar</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span>Team Builder</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">rocket_launch</span>
+<span>Research -&gt; Startup</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">emoji_events</span>
+<span>Hackathon Matcher</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">hub</span>
+<span>Campus Graph</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span>Data Explorer</span>
+</a>
+</div>
+<div class="mt-auto space-y-2 pt-4 border-t border-outline-variant/30">
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span>User Profile</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-[240px] h-screen overflow-y-auto bg-background relative">
+<!-- TopNavBar (Integrated into header area conceptually, but structurally top right) -->
+<div class="fixed top-0 right-0 z-40 bg-surface/70 backdrop-blur-xl text-primary dark:text-primary font-body-md text-body-md border-b border-outline-variant/30 flex items-center justify-between w-[calc(100%-240px)] h-16 px-gutter">
+<div class="flex-1"></div> <!-- Spacer for Left Search if needed -->
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:bg-surface-variant/50 rounded-full p-2 transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-variant/50 rounded-full p-2 transition-all">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+<div class="p-gutter mt-16 max-w-[1440px] mx-auto space-y-section-gap pb-20">
+<!-- Header Section -->
+<header class="mb-8">
+<h2 class="font-display-lg text-display-lg text-on-surface mb-2">UNI-LENS</h2>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">University intelligence, connected.</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                    Discover relationships, risks, and opportunities hidden across your campus data.
+                </p>
+</header>
+<!-- Hero Intelligence Panel (Relationship Flow) -->
+<section class="glass-panel rounded-xl p-card-padding relative overflow-hidden">
+<!-- Background decoration -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary-container/5 to-transparent pointer-events-none"></div>
+<div class="flex justify-between items-start mb-8 relative z-10">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">hub</span>
+                        Campus Intelligence
+                    </h3>
+<span class="bg-error-container/20 text-error px-3 py-1 rounded-full font-label-sm text-label-sm border border-error/30 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                        Potential IP Risk Detected
+                    </span>
+</div>
+<!-- Relationship Flow -->
+<div class="flex flex-col md:flex-row items-center justify-between gap-4 relative z-10 py-8 px-4">
+<!-- Node 1 -->
+<div class="flex flex-col items-center gap-2 relative">
+<div class="w-16 h-16 rounded-full glass-panel flex items-center justify-center border-primary/50 text-primary z-10">
+<span class="material-symbols-outlined">school</span>
+</div>
+<div class="text-center">
+<p class="font-label-sm text-label-sm text-on-surface-variant">STUDENT PROJECT</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold">Edge AI</p>
+</div>
+</div>
+<!-- Connector -->
+<div class="hidden md:block flex-1 h-[1px] bg-outline-variant relative">
+<div class="absolute top-0 left-0 h-full bg-primary w-1/2 glow-line"></div>
+</div>
+<!-- Node 2 -->
+<div class="flex flex-col items-center gap-2 relative">
+<div class="w-16 h-16 rounded-full glass-panel flex items-center justify-center border-tertiary/50 text-tertiary z-10">
+<span class="material-symbols-outlined">memory</span>
+</div>
+<div class="text-center">
+<p class="font-label-sm text-label-sm text-on-surface-variant">TECHNOLOGY</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold">CivicTech</p>
+</div>
+</div>
+<!-- Connector -->
+<div class="hidden md:block flex-1 h-[1px] bg-outline-variant"></div>
+<!-- Node 3 -->
+<div class="flex flex-col items-center gap-2 relative">
+<div class="w-16 h-16 rounded-full glass-panel flex items-center justify-center border-secondary/50 text-secondary z-10">
+<span class="material-symbols-outlined">domain</span>
+</div>
+<div class="text-center">
+<p class="font-label-sm text-label-sm text-on-surface-variant">STARTUP</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold">UrbanPulse</p>
+</div>
+</div>
+<!-- Connector -->
+<div class="hidden md:block flex-1 h-[1px] bg-outline-variant"></div>
+<!-- Node 4 -->
+<div class="flex flex-col items-center gap-2 relative">
+<div class="w-16 h-16 rounded-full glass-panel flex items-center justify-center border-[#4edea3]/50 text-[#4edea3] z-10">
+<span class="material-symbols-outlined">attach_money</span>
+</div>
+<div class="text-center">
+<p class="font-label-sm text-label-sm text-on-surface-variant">FUNDING</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold">$3.5M</p>
+</div>
+</div>
+<!-- Connector -->
+<div class="hidden md:block flex-1 h-[1px] bg-outline-variant relative">
+<div class="absolute top-0 right-0 h-full bg-error w-full glow-line"></div>
+</div>
+<!-- Node 5 -->
+<div class="flex flex-col items-center gap-2 relative">
+<div class="w-16 h-16 rounded-full bg-error-container/10 border border-error flex items-center justify-center text-error active-node z-10">
+<span class="material-symbols-outlined">policy</span>
+</div>
+<div class="text-center">
+<p class="font-label-sm text-label-sm text-error">ALERT</p>
+<p class="font-body-md text-body-md text-on-surface font-semibold">No Patent</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Key Metrics Grid -->
+<section class="grid grid-cols-2 md:grid-cols-5 gap-4">
+<div class="glass-panel p-4 rounded-lg flex flex-col justify-between hover:bg-surface-variant/20 transition-colors">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Student Projects</span>
+<div class="mt-4 flex items-end justify-between">
+<span class="font-metric-xl text-metric-xl text-primary">40</span>
+<span class="material-symbols-outlined text-outline-variant text-[16px]">folder_open</span>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-lg flex flex-col justify-between hover:bg-surface-variant/20 transition-colors">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Skill Profiles</span>
+<div class="mt-4 flex items-end justify-between">
+<span class="font-metric-xl text-metric-xl text-secondary">40</span>
+<span class="material-symbols-outlined text-outline-variant text-[16px]">badge</span>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-lg flex flex-col justify-between hover:bg-surface-variant/20 transition-colors">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Faculty Pubs</span>
+<div class="mt-4 flex items-end justify-between">
+<span class="font-metric-xl text-metric-xl text-tertiary">25</span>
+<span class="material-symbols-outlined text-outline-variant text-[16px]">menu_book</span>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-lg flex flex-col justify-between hover:bg-surface-variant/20 transition-colors">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Hackathons</span>
+<div class="mt-4 flex items-end justify-between">
+<span class="font-metric-xl text-metric-xl text-[#c0c1ff]">6</span>
+<span class="material-symbols-outlined text-outline-variant text-[16px]">event</span>
+</div>
+</div>
+<div class="glass-panel p-4 rounded-lg flex flex-col justify-between hover:bg-surface-variant/20 transition-colors">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">VC &amp; Patents</span>
+<div class="mt-4 flex items-end justify-between">
+<span class="font-metric-xl text-metric-xl text-on-surface">20</span>
+<span class="material-symbols-outlined text-outline-variant text-[16px]">assured_workload</span>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

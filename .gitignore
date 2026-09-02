@@ -1,17 +1,39 @@
-# Byte-compiled / optimized / DLL files
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Production build artifacts
+dist/
+dist-ssr/
+build/
+
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Python & Backend
 __pycache__/
 *.py[cod]
-*$py.class
-
-# C extensions
+*.class
 *.so
-
-# Distribution / packaging
 .Python
 env/
+venv/
+.venv/
+ENV/
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -25,19 +47,13 @@ wheels/
 .installed.cfg
 *.egg
 
-# Virtual Environments
-.env
-.venv
-env/
-venv/
-ENV/
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS files
+# Editor & OS files
 .DS_Store
 Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
